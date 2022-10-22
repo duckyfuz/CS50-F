@@ -1,9 +1,47 @@
 import os
 import requests
 import urllib.parse
+import cred 
+import spotipy
 
 from flask import redirect, render_template, request, session
 from functools import wraps
+from spotipy.oauth2 import SpotifyOAuth
+
+
+def login_to():
+    """Login to SPOTIFY, retrive liked songs"""
+    scope = "user-library-read user-read-private"
+    sp = spotipy.Spotify(auth_manager=SpotifyOAuth(client_id=cred.client_ID, client_secret= cred.client_SECRET, redirect_uri=cred.redirect_url, scope=scope))
+    results = sp.current_user_saved_tracks(limit=40)
+    for idx, item in enumerate(results['items']):
+        track = item['track']
+        print(idx, track['artists'][0]['name'], " – ", track['name'])
+    username = sp.me()
+    print(username)
+    return 
+
+def login_required(f):
+
+    # This is from the archived code, write something to make sure that the user is logged in
+
+    """
+    Decorate routes to require login.
+
+    https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if session.get("user_id") is None:
+            return redirect("/login")
+        return f(*args, **kwargs)
+    return decorated_function
+
+
+
+
+
+
 
 
 def apology(message, code=400):
@@ -19,21 +57,6 @@ def apology(message, code=400):
             s = s.replace(old, new)
         return s
     return render_template("apology.html", top=code, bottom=escape(message)), code
-
-
-def login_required(f):
-    """
-    Decorate routes to require login.
-
-    https://flask.palletsprojects.com/en/1.1.x/patterns/viewdecorators/
-    """
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        if session.get("user_id") is None:
-            return redirect("/login")
-        return f(*args, **kwargs)
-    return decorated_function
-
 
 def lookup(symbol):
     """Look up quote for symbol."""
