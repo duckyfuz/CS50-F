@@ -1,2 +1,6 @@
-spotipy_tutorial/
+__pycache__/
+flask_session/
+
+app(reference).py
+.cache
 cred.py
