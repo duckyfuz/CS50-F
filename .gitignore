@@ -1,9 +1,7 @@
 __pycache__/
 flask_session/
 .flask_session/
+archive/
 
-app(reference).py
-app(ver1).py
-app(ver2).py
 .cache
 cred.py
