@@ -7,24 +7,34 @@
         <meta charset="utf-8">
         <meta name="viewport" content="initial-scale=1, width=device-width">
 
-        <!-- http://getbootstrap.com/docs/5.1/ -->
-        <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" rel="stylesheet">
-        <script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"></script>
-
-        <!-- https://favicon.io/emoji-favicons/money-bag/ -->
-        <link href="/static/favicon.ico" rel="icon">
+        <!-- https://www.w3schools.com/howto/tryit.asp?font=Open%20Sans -->
+        <link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
 
         <link href="/static/styles.css" rel="stylesheet">
+
+        <!-- http://getbootstrap.com/docs/5.1/ -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi" crossorigin="anonymous">
+
+        <!-- https://emojipedia.org/headphone/ -->
+        <link href="/static/headphone.png" rel="icon">
 
         <title>BSB: {% block title %}{% endblock %}</title>
 
     </head>
 
     <body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3" crossorigin="anonymous"></script>
 
-        <nav class="bg-light border navbar navbar-expand-md navbar-light">
+        <nav class="navbar" style="background-color: #D0BCFF;">
             <div class="container-fluid">
-                <a class="navbar-brand" href="/"><span style="color:#761500">Bad Song Bot</span></a>
+                <a class="navbar-brand" href="/">
+                    <img src="/static/music-player.svg" 
+                     alt="Logo" width="36" height="36" 
+                     class="d-inline-block align-text-top">
+                    <h3 class="d-inline-block align-text-top">
+                        Bad Song Bot
+                    </h3>
+                </a>
                 <button aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbar" data-bs-toggle="collapse" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
