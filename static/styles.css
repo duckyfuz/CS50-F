@@ -12,3 +12,9 @@ div.invis {
 body {
     font-family: 'Open Sans';
 }
+
+/* Playlist Art */
+img.playlist_art {
+    width:40px;
+    height:40px;
+}

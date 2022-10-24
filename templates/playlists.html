@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <table>
+        <tr>
+            <th>Playlist Art</th>
+            <th>Playlist Name</th>
+            <th>Size</th>
+            <th>ID</th>
+        </tr>
+        
+        {% for row in playlist_list %}
+
+            <div class="invis">{{ loop.index }}</div>
+
+            <tr>
+                <div>
+                    <td>
+                        <img class="playlist_art" 
+                             src={{ playlist_list[loop.index - 1][4] }} 
+                             alt="Playlist Art">
+                    </td>
+                    <td>
+                            <a href={{ playlist_list[loop.index - 1][1] }}>
+                                {{ playlist_list[loop.index - 1][0] }}
+                            </a>
+                    </td>
+                    <td>
+                        {{ playlist_list[loop.index - 1][2] }}
+                    </td>
+                    <td>
+                        <!-- Sends the playlist ID via a POST request-->
+                        <form action="/modify" method="post">
+                            <input type="hidden" name="Do Something" value={{ playlist_list[loop.index - 1][3] }} />
+                            <button class="btn btn-primary" type="submit">Do Something</button>
+                        </form>
+                    </td>
+                </div>
+            </tr>
+
+        {% endfor %}
+
+    </table>
+
+{% endblock %}

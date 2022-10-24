@@ -1,8 +1,14 @@
 import os
 import spotipy
+import numpy as np
+import pandas as pd
+
 
 from flask import Flask, session, request, redirect, render_template
 from flask_session import Session
+from math import trunc
+from helpers import get_playlists
+
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.urandom(64)
@@ -15,7 +21,7 @@ Session(app)
 def index():
 
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-    auth_manager = spotipy.oauth2.SpotifyOAuth(scope='user-read-currently-playing playlist-modify-private',
+    auth_manager = spotipy.oauth2.SpotifyOAuth(scope='user-library-modify user-read-currently-playing playlist-read-private playlist-modify-private',
                                                cache_handler=cache_handler,
                                                show_dialog=True)
 
@@ -49,7 +55,11 @@ def playlists():
         return redirect('/')
 
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    return spotify.current_user_playlists()
+
+    playlist_df = get_playlists(spotify)
+    playlist_list = playlist_df.values.tolist()
+
+    return render_template("playlists.html", logged=True, playlist_list = playlist_list)
 
 
 @app.route('/currently_playing')
