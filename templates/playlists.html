@@ -34,9 +34,9 @@
                     </td>
                     <td>
                         <!-- Sends the playlist ID via a POST request-->
-                        <form action="/modify" method="post">
-                            <input type="hidden" name="Do Something" value={{ playlist_list[loop.index - 1][3] }} />
-                            <button class="btn btn-primary" type="submit">Do Something</button>
+                        <form action="/modify" method="post">   
+                            <input type="hidden" name="playlist_id" value={{ playlist_list[loop.index - 1][3] }} />
+                            <button class="btn btn-primary" type="submit">smth</button>
                         </form>
                     </td>
                 </div>

@@ -62,6 +62,18 @@ def playlists():
     return render_template("playlists.html", logged=True, playlist_list = playlist_list)
 
 
+@app.route('/modify', methods=['GET', 'POST'])
+def modify():
+    # User reached route via POST (as by submitting a form via POST)
+    if request.method == "POST":
+        playlist_id = request.form.get("playlist_id")
+        return render_template("modify.html", playlist_id=playlist_id)
+
+    # User reached route via GET (as by clicking a link or via redirect)
+    else:
+        return redirect("/playlists")
+
+
 @app.route('/currently_playing')
 def currently_playing():
     cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
