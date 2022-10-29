@@ -7,7 +7,7 @@ import pandas as pd
 from flask import Flask, session, request, redirect, render_template
 from flask_session import Session
 from math import trunc
-from helpers import get_playlists, get_tracks
+from helpers import get_playlists, get_tracks, cache_auth_spoti
 
 
 app = Flask(__name__)
@@ -65,17 +65,14 @@ def modify():
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-        auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
-        if not auth_manager.validate_token(cache_handler.get_cached_token()):
-            return redirect('/')
+        spotify = cache_auth_spoti(1)
 
-        spotify = spotipy.Spotify(auth_manager=auth_manager)
         playlist_id = request.form.get("playlist_id")
 
         tracks = get_tracks(spotify, playlist_id)
+        
 
-        return render_template("modify.html", playlist_id=tracks)
+        return render_template("modify.html", playlist=tracks)
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:
