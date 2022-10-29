@@ -6,6 +6,7 @@ import pandas as pd
 from math import trunc
 
 def get_playlists(spotify):
+    # Could be done better with the use of if smth['next'] to repeat instead
     playlist_name = []
     playlist_url = []
     playlist_size = []
@@ -42,3 +43,29 @@ def get_playlists(spotify):
                                                 columns=playlist_columns)
 
     return playlist_df
+
+def get_tracks(spotify, playlist_id):
+
+    playlist = spotify.playlist_tracks(playlist_id, fields=None, market=None)
+    tracks = playlist['items']
+    # Repeats till every track is added to the list - there is a limit of 100 imposed for the function playlist_tracks
+    while playlist['next']: 
+        playlist = spotify.next(playlist)
+        tracks.extend(playlist['items'])
+
+    indiv = [] # tracks[x]['track']['name']
+    popularity = [] # tracks[x]['track']['popularity']
+    preview_url = [] # tracks[x]['track']['preview_url']
+    track_id = [] # tracks[x]['track']['id']
+
+
+    for track in tracks:
+        indiv.append(track['track']['name'])
+        popularity.append(track['track']['popularity'])
+        preview_url.append(track['track']['preview_url']) # tracks[x]['track']['preview_url']
+        track_id.append(track['track']['id']) # tracks[x]['track']['id']
+
+    track_columns = ['name', 'poplarity', 'preview_url', 'track_id']
+    tracks_df = pd.DataFrame(np.column_stack([indiv, popularity, preview_url, track_id]), columns=track_columns)
+
+    return tracks_df
