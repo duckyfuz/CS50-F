@@ -4,40 +4,6 @@ import numpy as np
 import pandas as pd
 
 from math import trunc
-from flask import Flask, session, request, redirect, render_template
-
-def cache_auth_spoti(id):
-
-    if id == 1:
-
-        cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-        auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
-        if not auth_manager.validate_token(cache_handler.get_cached_token()):
-            return redirect('/')
-        return spotipy.Spotify(auth_manager=auth_manager)
-
-    elif id == 0:
-
-        cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-        auth_manager = spotipy.oauth2.SpotifyOAuth(scope='user-library-modify user-read-currently-playing playlist-read-private playlist-modify-private',
-                                                cache_handler=cache_handler,
-                                                show_dialog=True)
-
-        if request.args.get("code"):
-            # Step 2. Being redirected from Spotify auth page
-            auth_manager.get_access_token(request.args.get("code"))
-            return redirect('/')
-
-        if not auth_manager.validate_token(cache_handler.get_cached_token()):
-            # Step 1. Display sign in link when no token
-            auth_url = auth_manager.get_authorize_url()
-            return render_template("login.html", logged=False, auth_url = auth_url)
-
-        # Step 3. Signed in, display data
-        return spotipy.Spotify(auth_manager=auth_manager)
-
-    else:
-        return 400
 
 def get_playlists(spotify):
     # Could be done better with the use of if smth['next'] to repeat instead
