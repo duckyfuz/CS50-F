@@ -37,7 +37,12 @@ def index():
 
     # Step 3. Signed in, display data
     spotify = spotipy.Spotify(auth_manager=auth_manager)
-    return render_template("index.html", logged=True, spotify=spotify)
+
+    # Retrive Currently Playing data
+    track = spotify.current_user_playing_track()
+    if not track is None:
+        return render_template("index.html", logged=True, spotify=spotify, track=track, playing=True)
+    return render_template("index.html", logged=True, spotify=spotify, track=track, playing=Fal)
 
 
 
@@ -83,20 +88,6 @@ def modify():
     # User reached route via GET (as by clicking a link or via redirect)
     else:
         return redirect("/playlists")
-
-
-@app.route('/currently_playing')
-def currently_playing():
-    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
-    if not auth_manager.validate_token(cache_handler.get_cached_token()):
-        return redirect('/')
-        
-    spotify = spotipy.Spotify(auth_manager=auth_manager)
-    track = spotify.current_user_playing_track()
-    if not track is None:
-        return track
-    return "No track currently playing."
 
 
 @app.route('/current_user')

@@ -5,10 +5,17 @@
 {% endblock %}
 
 {% block main %}
-    Welcome
-    <h2>Hi {{  spotify.me()["display_name"]  }}, ' \
-    <small><a href="/logout">[logout]<a/></small></h2>' \
-    <a href="/playlists">my playlists</a> | ' \
-    <a href="/currently_playing">currently playing</a> | ' \
-    <a href="/current_user">me</a>' \
+
+    <h2>Hi {{  spotify.me()["display_name"]  }}</h2>
+    {% if playing == True %}
+        <div style='vertical-align:middle; display:inline-block;'>
+            <h3>Currently Playing: {{  track['item']["name"]  }}
+            <img src="{{ track['item']["album"]['images'][2]["url"]  }}" alt="Album Art"></h3>
+        </div>
+    {% else %}
+        <div style='vertical-align:middle; display:inline-block;'>
+            <h3>No track currently playing</h3>
+        </div>
+    {% endif %}
+
 {% endblock %}
