@@ -2,3 +2,7 @@ cs50
 Flask
 Flask-Session
 requests
+spotipy
+numpy
+pandas
+math
