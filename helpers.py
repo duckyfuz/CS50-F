@@ -65,7 +65,32 @@ def get_tracks(spotify, playlist_id):
         preview_url.append(track['track']['preview_url']) # tracks[x]['track']['preview_url']
         track_id.append(track['track']['id']) # tracks[x]['track']['id']
 
-    track_columns = ['name', 'poplarity', 'preview_url', 'track_id']
-    tracks_df = pd.DataFrame(np.column_stack([indiv, popularity, preview_url, track_id]), columns=track_columns)
+    track_columns = ['name', 'popularity', 'preview_url', 'track_id']
+    tracks_df = pd.DataFrame(np.column_stack([indiv, popularity, preview_url, track_id]), 
+                                              columns=track_columns)
 
     return tracks_df
+
+def get_song(spotify, song_id):
+
+    song_id = list(filter(lambda item: item is not None, song_id))
+    song = spotify.audio_features(song_id)
+
+    features = [[] for _ in range(10)]
+    for each in song:
+        features[0].append(each['acousticness'])
+        features[1].append(each['danceability'])
+        features[2].append(each['duration_ms'])
+        features[3].append(each['energy'])
+        features[4].append(each['instrumentalness'])
+        features[5].append(each['liveness'])
+        features[6].append(each['loudness'])
+        features[7].append(each['speechiness'])
+        features[8].append(each['tempo'])
+        features[9].append(each['valence'])
+
+    averages = [[] for _ in range(10)]
+    for x in range(10):
+        averages[x] = round(sum(features[x]) / len(features[x]), 2)
+
+    return averages

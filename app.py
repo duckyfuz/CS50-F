@@ -7,7 +7,7 @@ import pandas as pd
 from flask import Flask, session, request, redirect, render_template
 from flask_session import Session
 from math import trunc
-from helpers import get_playlists, get_tracks
+from helpers import get_playlists, get_tracks, get_song
 
 
 app = Flask(__name__)
@@ -42,8 +42,7 @@ def index():
     track = spotify.current_user_playing_track()
     if not track is None:
         return render_template("index.html", logged=True, spotify=spotify, track=track, playing=True)
-    return render_template("index.html", logged=True, spotify=spotify, track=track, playing=Fal)
-
+    return render_template("index.html", logged=True, spotify=spotify, track=track, playing=False)
 
 
 @app.route('/logout')
@@ -69,21 +68,25 @@ def playlists():
 
 @app.route('/modify', methods=['GET', 'POST'])
 def modify():
+
+    cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
+    auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
+    if not auth_manager.validate_token(cache_handler.get_cached_token()):
+        return redirect('/')
+
+    spotify = spotipy.Spotify(auth_manager=auth_manager)
+    
     # User reached route via POST (as by submitting a form via POST)
     if request.method == "POST":
 
-        cache_handler = spotipy.cache_handler.FlaskSessionCacheHandler(session)
-        auth_manager = spotipy.oauth2.SpotifyOAuth(cache_handler=cache_handler)
-        if not auth_manager.validate_token(cache_handler.get_cached_token()):
-            return redirect('/')
-
-        spotify = spotipy.Spotify(auth_manager=auth_manager)
         playlist_id = request.form.get("playlist_id")
 
         tracks = get_tracks(spotify, playlist_id)
-        
 
-        return render_template("modify.html", playlist=tracks)
+        song_list = tracks['track_id'].values.tolist()
+        song_info = get_song(spotify, song_list)
+
+        return render_template("modify.html", logged=True, playlist=tracks, avg_features=song_info)
 
     # User reached route via GET (as by clicking a link or via redirect)
     else:

@@ -6,6 +6,82 @@
 
 {% block main %}
     
-    {{  playlist  }}
+<table>
+    <tr>
+        <th>Acousticness</th>
+        <td>{{ avg_features[0] }}</td>
+    </tr>
+    <tr>
+        <th>Danceability</th>
+        <td>{{ avg_features[1] }}</td>
+    </tr>
+    <tr>
+        <th>Duration_ms</th>
+        <td>{{ avg_features[2] }}</td>
+    </tr>
+    <tr>
+        <th>Energy</th>
+        <td>{{ avg_features[3] }}</td>
+    </tr>
+    <tr>
+        <th>Instrumentalness</th>
+        <td>{{ avg_features[4] }}</td>
+    </tr>
+    <tr>
+        <th>Liveness</th>
+        <td>{{ avg_features[5] }}</td>
+    </tr>
+    <tr>
+        <th>Loudness</th>
+        <td>{{ avg_features[6] }}</td>
+    </tr>
+    <tr>
+        <th>Speechiness</th>
+        <td>{{ avg_features[7] }}</td>
+    </tr>
+    <tr>
+        <th>Tempo</th>
+        <td>{{ avg_features[8] }}</td>
+    </tr>
+    <tr>
+        <th>Valence</th>
+        <td>{{ avg_features[9] }}</td>
+    </tr>
+</table>
+
+<table>
+    <tr>
+        <th>Song</th>
+        <th>Popularity</th>
+        <th>Preview_URL</th>
+        <th>Track_ID </th>
+    </tr>
+    
+    {% for row in playlist.iterrows() %}
+
+        <div class="invis">{{ loop.index }}</div>
+
+        <tr>
+            <div>
+                <td>
+                    {{ playlist['name'][loop.index - 1] }}
+                </td>
+                <td>
+                    {{ playlist['popularity'][loop.index - 1] }}
+                </td>
+                <td>
+                    <audio controls>
+                        <source src="{{ playlist['preview_url'][loop.index - 1] }}" />
+                    </audio>
+                </td>
+                <td>
+                    {{ playlist['track_id'][loop.index - 1] }}
+                </td>
+            </div>
+        </tr>
+
+    {% endfor %}
+
+</table>
 
 {% endblock %}
