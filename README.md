@@ -1,6 +1,7 @@
 # BAD MUSIC BOT
 #### Video Demo:  https://www.youtube.com/watch?v=1_MG21vB3es
-#### Description:
+#### Github Repo: https://github.com/duckyfuz/CS50-F
+### Description:
 This bot utilises the spotify api along with the spotipy library to read the user's liked songs and give suggestions accordingly.
 
 This project was creaated to add addional functions to spotify throught the web api. While the project is not entirely complete, one is currently able to view a list of their playlists, the individual songs in the playlists, as well as averaged data on the songs in their playlists - such as danceability, loundness, etc.
